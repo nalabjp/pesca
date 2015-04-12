@@ -51,6 +51,7 @@ test:
 #
 production:
   <<: *default
-  database: pesca_production
-  username: pesca
-  password: <%= ENV['PESCA_DATABASE_PASSWORD'] %>
+  database: <%= ENV['PESCA_PRODUCTION_DB_DATABASE'] %>
+  username: <%= ENV['PESCA_PRODUCTION_DB_USERNAME'] %>
+  password: <%= ENV['PESCA_PRODUCTION_DB_PASSWORD'] %>
+  host: <%= ENV['PESCA_PRODUCTION_DB_HOST'] %>

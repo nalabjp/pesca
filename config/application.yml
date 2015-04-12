@@ -1,0 +1,17 @@
+defaults: &defaults
+  providers: <%= ENV['PESCA_PROVIDERS'].try(:split, ':') %>
+  notifiers:
+    pushbullet:
+      access_token: <%= ENV['PESCA_PUSHBULLET_ACCESS_TOKEN'] %>
+      targets: <%= ENV['PESCA_PUSHBULLET_TARGETS'].split(':') %>
+  filter:
+    keywords: <%= ENV['PESCA_SEARCH_KEYWORDS'].try(:split, ':') %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

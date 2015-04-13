@@ -6,11 +6,11 @@ module Notifiers
       @config = Configuration.notifiers.pushbullet
     end
 
+    private
     def perform(method, notification)
       send("push_#{method}", notification)
     end
 
-    private
     def push_link(notification)
       devices.each do |device|
         if device.nickname.in?(targets)

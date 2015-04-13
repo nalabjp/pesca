@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# for heroku
+ruby '2.2.1'
+gem 'rails_12factor', group: :production
+
 # rails base
 gem 'rails', '4.2.1'
 gem 'mysql2'

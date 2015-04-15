@@ -11,18 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150107150328) do
+ActiveRecord::Schema.define(version: 20150406150328) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
-    t.string   "provider",    limit: 32,       null: false
-    t.string   "event_id",    limit: 16,       null: false
-    t.string   "title",       limit: 255,      null: false
-    t.text     "description", limit: 16777215
-    t.text     "catch",       limit: 16777215
-    t.string   "address",     limit: 255
-    t.string   "event_url",   limit: 255,      null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "provider",    limit: 32, null: false
+    t.string   "event_id",    limit: 16, null: false
+    t.string   "title",                  null: false
+    t.text     "description"
+    t.text     "catch"
+    t.string   "address"
+    t.string   "event_url",              null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "events", ["provider", "event_id"], name: "unique_on_provider_and_event_id", unique: true, using: :btree

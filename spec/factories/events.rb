@@ -5,11 +5,11 @@
 #  id          :integer          not null, primary key
 #  provider    :string(32)       not null
 #  event_id    :string(16)       not null
-#  title       :string(255)      not null
-#  description :text(16777215)
-#  catch       :text(16777215)
-#  address     :string(255)
-#  event_url   :string(255)      not null
+#  title       :string           not null
+#  description :text
+#  catch       :text
+#  address     :string
+#  event_url   :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

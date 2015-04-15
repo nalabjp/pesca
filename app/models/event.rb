@@ -5,11 +5,11 @@
 #  id          :integer          not null, primary key
 #  provider    :string(32)       not null
 #  event_id    :string(16)       not null
-#  title       :string(255)      not null
-#  description :text(16777215)
-#  catch       :text(16777215)
-#  address     :string(255)
-#  event_url   :string(255)      not null
+#  title       :string           not null
+#  description :text
+#  catch       :text
+#  address     :string
+#  event_url   :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
@@ -26,8 +26,7 @@ class Event < ActiveRecord::Base
 
   class << self
     def next_auto_increment_id
-      sql = "select AUTO_INCREMENT from information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '#{table_name}';"
-      connection.execute(sql).first[0]
+      find_by_sql("SELECT nextval('#{table_name}_id_seq')").first['nextval']
     end
 
     def search_by(ids:, keywords: [])

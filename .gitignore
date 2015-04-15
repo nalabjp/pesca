@@ -34,3 +34,7 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# for heroku
+heroku_config.sh
+heroku_deploy.sh

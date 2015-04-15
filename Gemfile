@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.2.1'
 group :production do
   gem 'rails_12factor'
-  gem 'newrelic-rpm'
+  gem 'newrelic_rpm'
 end
 
 # rails base

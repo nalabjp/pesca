@@ -11,7 +11,7 @@ class Runner
     @mutex = Mutex.new
   end
 
-  aasm whiny_transitions: false do
+  aasm do
     state :prepare, initial: true
     state :crawling
     state :importing
@@ -59,8 +59,16 @@ class Runner
         log_info('Start: Runner#run')
         crawl { exec_crawl }
         import { exec_import }
-        return unless filter { exec_filter }
-        notify { exec_notify }
+        return unless begin
+          filter { exec_filter }
+        rescue AASM::InvalidTransition => e
+          false
+        end
+        begin
+          notify { exec_notify }
+        rescue AASM::InvalidTransition => e
+          # do nothing
+        end
       rescue => e
         notify_exception(e)
         raise e

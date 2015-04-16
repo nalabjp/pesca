@@ -49,9 +49,6 @@ gem 'washbullet', github: 'nalabjp/washbullet'
 # state machine
 gem 'aasm'
 
-# crontab
-gem 'whenever', require: false
-
 group :development, :test do
   gem 'web-console'
   gem 'spring'

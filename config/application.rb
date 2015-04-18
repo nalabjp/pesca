@@ -26,6 +26,6 @@ module Pesca
     config.active_record.raise_in_transactional_callbacks = true
 
     # queue for active_job
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :sucker_punch
   end
 end

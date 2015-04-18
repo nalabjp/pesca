@@ -50,7 +50,7 @@ gem 'washbullet', github: 'nalabjp/washbullet'
 gem 'aasm'
 
 # activejob backend
-gem 'sidekiq'
+gem 'sucker_punch'
 
 group :development, :test do
   gem 'web-console'

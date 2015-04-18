@@ -49,6 +49,9 @@ gem 'washbullet', github: 'nalabjp/washbullet'
 # state machine
 gem 'aasm'
 
+# activejob backend
+gem 'sidekiq'
+
 group :development, :test do
   gem 'web-console'
   gem 'spring'

@@ -115,19 +115,8 @@ class Runner
     @filtered.present?
   end
 
-  def build_notifications
-    @notifications = @filtered.map do |event|
-      Notification.new(event.title, event.description, event.event_url)
-    end
-  end
-
   def exec_notify
-    bullet = Notifiers.new(:pushbullet)
-    build_notifications.each do |notification|
-      bullet.notify(:link, notification)
-      log_info("[Notification] #{notification.title} #{notification.url}")
-    end
-    bullet.terminate
+    NotificationJob.perform_later(@filtered.to_a)
   end
 
   def notify_exception(ex)

@@ -7,7 +7,6 @@ class Runner
     @crawled = nil
     @inserted_id_range = nil
     @filtered = nil
-    @notifications = nil
     @mutex = Mutex.new
   end
 

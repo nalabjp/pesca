@@ -13,6 +13,5 @@ class NotificationJob < ActiveJob::Base
       bullet.notify(:link, notification)
       logger.info("[Notification] #{notification.title} #{notification.url}")
     end
-    bullet.terminate
   end
 end

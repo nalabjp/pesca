@@ -10,7 +10,7 @@ class Configuration
 
     private
     def config
-      @config ||= Hashie::Mash.new(Rails.application.config_for(:application))
+      @config ||= Hashie::Mash.new(Rails.application.config_for(:pesca))
     end
   end
 end

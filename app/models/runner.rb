@@ -7,7 +7,6 @@ class Runner
     @crawled = nil
     @inserted_id_range = nil
     @filtered = nil
-    @notifications = nil
     @mutex = Mutex.new
   end
 
@@ -120,9 +119,7 @@ class Runner
   end
 
   def notify_exception(ex)
-    bullet = Notifiers.new(:pushbullet)
-    bullet.notify(:note, Notification::Error.new(ex.message, ex.backtrace))
-    bullet.terminate
+    Notifiers.new(:pushbullet).notify(:note, Notification::Error.new(ex.message, ex.backtrace))
   end
 
   def log_info(message = nil)

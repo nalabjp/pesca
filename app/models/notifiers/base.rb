@@ -1,9 +1,7 @@
 module Notifiers
   class Base
-    include ::Celluloid
-
     def notify(*args)
-      async.perform(*args)
+      perform(*args)
     end
 
     private

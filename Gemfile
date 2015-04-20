@@ -52,6 +52,9 @@ gem 'aasm'
 # activejob backend
 gem 'sucker_punch'
 
+# HTML to Text
+gem 'nokogiri'
+
 group :development, :test do
   gem 'web-console'
   gem 'spring'

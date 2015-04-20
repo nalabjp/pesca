@@ -279,6 +279,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   newrelic_rpm
+  nokogiri
   pg
   pry
   pry-byebug

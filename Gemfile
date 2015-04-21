@@ -70,7 +70,6 @@ group :development, :test do
   gem 'timecop'
   gem 'tapp'
   gem 'bullet'
-  gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
 
@@ -81,3 +80,7 @@ group :development do
   gem 'annotate'
 end
 
+group :test do
+  gem 'minitest-reporters'
+  gem 'minitest-power_assert'
+end

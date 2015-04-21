@@ -80,3 +80,7 @@ group :development do
   gem 'annotate'
 end
 
+group :test do
+  gem 'minitest-reporters'
+  gem 'minitest-power_assert'
+end

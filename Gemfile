@@ -83,4 +83,5 @@ end
 group :test do
   gem 'minitest-reporters'
   gem 'minitest-power_assert'
+  gem 'minitest-rails'
 end

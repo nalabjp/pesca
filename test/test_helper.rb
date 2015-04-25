@@ -1,9 +1,16 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require "minitest/reporters"
+require 'minitest/reporters'
+require 'factory_girl'
 
 Minitest::Reporters.use!
+
+FactoryGirl.find_definitions
+
+class MiniTest::Unit::TestCase
+  include FactoryGirl::Syntax::Methods
+end
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

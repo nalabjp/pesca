@@ -7,7 +7,7 @@ require 'factory_girl'
 
 Minitest::Reporters.use!
 
-class MiniTest::Test
+class Minitest::Test
   include FactoryGirl::Syntax::Methods
 end
 

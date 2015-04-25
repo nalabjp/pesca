@@ -27,5 +27,9 @@ module Pesca
 
     # queue for active_job
     config.active_job.queue_adapter = :sucker_punch
+
+    config.generators do |g|
+      g.test_framework :minitest, spec: false, fixture: false
+    end
   end
 end

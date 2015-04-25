@@ -4,6 +4,7 @@ require 'rails/test_help'
 require 'minitest/rails'
 require 'minitest/reporters'
 require 'factory_girl'
+require 'support/database_rewinder'
 
 Minitest::Reporters.use!
 

@@ -10,24 +10,24 @@ class EventTest < ActiveSupport::TestCase
   end
 
   def test_empty_provider
-    assert event(provider: nil).invalid?
+    refute event(provider: nil).valid?
   end
 
   def test_empty_event_id
-    assert event(event_id: nil).invalid?
+    refute event(event_id: nil).valid?
   end
 
   def test_empty_title
-    assert event(title: nil).invalid?
+    refute event(title: nil).valid?
   end
 
   def test_empty_event_url
-    assert event(event_url: nil).invalid?
+    refute event(event_url: nil).valid?
   end
 
   def test_provider_and_event_id_unique
     event.save!
-    assert event.invalid?
+    refute event.valid?
   end
 
   def test_next_auto_increment_id

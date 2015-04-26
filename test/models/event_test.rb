@@ -33,16 +33,16 @@ class EventTest < ActiveSupport::TestCase
   def test_next_auto_increment_id
     prev_next_id = Event.next_auto_increment_id
     current_next_id = Event.next_auto_increment_id
-    assert_equal current_next_id, (prev_next_id + 1)
+    assert current_next_id >= (prev_next_id + 1)
   end
 
   def test_search_by
-    event.save!
-    id1 = Event.last.id
-    event(:for_search).save!
-    id2 = Event.last.id
-    ids = [id1, id2]
-    assert_equal Event.search_by(ids: id2+1).size, 0
+    e1 = event
+    e1.save!
+    e2 = event(:for_search)
+    e2.save!
+    ids = [e1.id, e2.id]
+    assert_equal Event.search_by(ids: Event.next_auto_increment_id).size, 0
     assert_equal Event.search_by(ids: ids, keywords: 'provider').size, 0
     assert_equal Event.search_by(ids: ids, keywords: 'event').size, 2
     assert_equal Event.search_by(ids: ids, keywords: 'event title').size, 1

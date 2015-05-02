@@ -12,38 +12,42 @@ class Runner
 
   aasm do
     state :prepare, initial: true
-    state :crawling
-    state :importing
-    state :filtering
-    state :notifying
+    state :crawled
+    state :imported
+    state :filtered
+    state :notified
 
     event :crawl do
-      transitions from: :prepare, to: :crawling do
+      transitions from: :prepare, to: :crawled do
         after do
+          exec_crawl
           log_info('Finish event: :crawl')
         end
       end
     end
 
     event :import do
-      transitions from: :crawling, to: :importing do
+      transitions from: :crawled, to: :imported do
         after do
+          exec_import
           log_info('Finish event: :import')
         end
       end
     end
 
     event :filter do
-      transitions from: :importing, to: :filtering, guard: :new_arrival? do
+      transitions from: :imported, to: :filtered, guard: :new_arrival? do
         after do
+          exec_filter
           log_info('Finish event: :filter')
         end
       end
     end
 
     event :notify do
-      transitions from: :filtering, to: :notifying, guard: :find? do
+      transitions from: :filtered, to: :notified, guard: :find? do
         after do
+          exec_notify
           log_info('Finish event: :notify')
         end
       end
@@ -56,18 +60,12 @@ class Runner
 
       begin
         log_info('Start: Runner#run')
-        crawl { exec_crawl }
-        import { exec_import }
-        return unless begin
-          filter { exec_filter }
-        rescue AASM::InvalidTransition => e
-          false
-        end
-        begin
-          notify { exec_notify }
-        rescue AASM::InvalidTransition => e
-          # do nothing
-        end
+        crawl
+        import
+        filter
+        notify
+      rescue AASM::InvalidTransition => e
+        log_info(e.message)
       rescue => e
         notify_exception(e)
         raise e

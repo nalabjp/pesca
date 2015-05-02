@@ -32,7 +32,7 @@ gem 'hirb'
 gem 'hirb-unicode'
 
 # bulk insert for AR
-gem 'activerecord-import'
+gem 'activerecord-import', github: 'zdennis/activerecord-import', ref: 'e7adac04a5'
 
 # hash extension
 gem 'hashie'

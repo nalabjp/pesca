@@ -5,7 +5,7 @@ class Runner
     @keywords = ::Configuration.filter.keywords
     @providers = nil
     @crawled = nil
-    @inserted_id_range = nil
+    @inserted_ids = nil
     @filtered = nil
     @mutex = Mutex.new
   end
@@ -88,7 +88,7 @@ class Runner
   end
 
   def new_arrival?
-    @inserted_id_range.present?
+    @inserted_ids.present?
   end
 
   def build_events
@@ -100,14 +100,12 @@ class Runner
   end
 
   def exec_import
-    before_last_id = Event.next_auto_increment_id
-    Event.import(build_events)
-    after_last_id = Event.maximum(:id) || 0
-    @inserted_id_range = after_last_id >= before_last_id ? before_last_id..after_last_id : nil
+    res = Event.import(build_events)
+    @inserted_ids = res[:ids]
   end
 
   def exec_filter
-    @filtered = Event.search_by(ids: @inserted_id_range.to_a, keywords: @keywords)
+    @filtered = Event.search_by(ids: @inserted_ids, keywords: @keywords)
   end
 
   def find?

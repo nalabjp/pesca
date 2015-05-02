@@ -30,19 +30,9 @@ class EventTest < ActiveSupport::TestCase
     refute event.valid?
   end
 
-  test 'next_auto_increment_id' do
-    prev_next_id = Event.next_auto_increment_id
-    current_next_id = Event.next_auto_increment_id
-    assert current_next_id >= (prev_next_id + 1)
-  end
-
   test 'search_by' do
-    e1 = event
-    e1.save!
-    e2 = event(:for_search)
-    e2.save!
-    ids = [e1.id, e2.id]
-    assert_equal Event.search_by(ids: Event.next_auto_increment_id).size, 0
+    res = Event.import([event, event(:for_search)])
+    ids = res[:ids]
     assert_equal Event.search_by(ids: ids, keywords: 'provider').size, 0
     assert_equal Event.search_by(ids: ids, keywords: 'event').size, 2
     assert_equal Event.search_by(ids: ids, keywords: 'event title').size, 1

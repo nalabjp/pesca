@@ -111,11 +111,11 @@ class Runner
   end
 
   def exec_notify
-    NotificationJob.perform_later(@filtered.to_a)
+    NotificationJob.perform_later('events', @filtered.to_a)
   end
 
   def notify_exception(ex)
-    Notifiers.new(:pushbullet).notify(:note, Notification::Error.new(ex.message, ex.backtrace))
+    NotificationJob.perform_later('exception', ex.message, ex.backtrace)
   end
 
   def log_info(message = nil)

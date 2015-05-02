@@ -3,7 +3,7 @@ class Notification < Struct.new(:title, :body, :url)
     Nokogiri::HTML(super).text
   end
 
-  class Error < Notification
+  class Error < Struct.new(:title, :body)
     def body
       "#{title}\n\n#{super.map{|t| "  #{t}\n"}.join}"
     end

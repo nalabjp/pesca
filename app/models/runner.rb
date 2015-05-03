@@ -5,45 +5,49 @@ class Runner
     @keywords = ::Configuration.filter.keywords
     @providers = nil
     @crawled = nil
-    @inserted_id_range = nil
+    @inserted_ids = nil
     @filtered = nil
     @mutex = Mutex.new
   end
 
   aasm do
     state :prepare, initial: true
-    state :crawling
-    state :importing
-    state :filtering
-    state :notifying
+    state :crawled
+    state :imported
+    state :filtered
+    state :notified
 
     event :crawl do
-      transitions from: :prepare, to: :crawling do
+      transitions from: :prepare, to: :crawled do
         after do
+          exec_crawl
           log_info('Finish event: :crawl')
         end
       end
     end
 
     event :import do
-      transitions from: :crawling, to: :importing do
+      transitions from: :crawled, to: :imported do
         after do
+          exec_import
           log_info('Finish event: :import')
         end
       end
     end
 
     event :filter do
-      transitions from: :importing, to: :filtering, guard: :new_arrival? do
+      transitions from: :imported, to: :filtered, guard: :new_arrival? do
         after do
+          exec_filter
           log_info('Finish event: :filter')
         end
       end
     end
 
     event :notify do
-      transitions from: :filtering, to: :notifying, guard: :find? do
+      transitions from: :filtered, to: :notified, guard: :find? do
         after do
+          exec_notify
           log_info('Finish event: :notify')
         end
       end
@@ -56,18 +60,12 @@ class Runner
 
       begin
         log_info('Start: Runner#run')
-        crawl { exec_crawl }
-        import { exec_import }
-        return unless begin
-          filter { exec_filter }
-        rescue AASM::InvalidTransition => e
-          false
-        end
-        begin
-          notify { exec_notify }
-        rescue AASM::InvalidTransition => e
-          # do nothing
-        end
+        crawl
+        import
+        filter
+        notify
+      rescue AASM::InvalidTransition => e
+        log_info(e.message)
       rescue => e
         notify_exception(e)
         raise e
@@ -88,7 +86,7 @@ class Runner
   end
 
   def new_arrival?
-    @inserted_id_range.present?
+    @inserted_ids.present?
   end
 
   def build_events
@@ -100,14 +98,12 @@ class Runner
   end
 
   def exec_import
-    before_last_id = Event.next_auto_increment_id
-    Event.import(build_events)
-    after_last_id = Event.maximum(:id) || 0
-    @inserted_id_range = after_last_id >= before_last_id ? before_last_id..after_last_id : nil
+    res = Event.import(build_events)
+    @inserted_ids = res[:ids]
   end
 
   def exec_filter
-    @filtered = Event.search_by(ids: @inserted_id_range.to_a, keywords: @keywords)
+    @filtered = Event.search_by(ids: @inserted_ids, keywords: @keywords)
   end
 
   def find?
@@ -115,11 +111,11 @@ class Runner
   end
 
   def exec_notify
-    NotificationJob.perform_later(@filtered.to_a)
+    NotificationJob.perform_later('events', @filtered.to_a)
   end
 
   def notify_exception(ex)
-    Notifiers.new(:pushbullet).notify(:note, Notification::Error.new(ex.message, ex.backtrace))
+    NotificationJob.perform_later('exception', ex.message, ex.backtrace)
   end
 
   def log_info(message = nil)

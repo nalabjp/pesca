@@ -25,10 +25,6 @@ class Event < ActiveRecord::Base
   validates :event_url, presence: true
 
   class << self
-    def next_auto_increment_id
-      find_by_sql("SELECT nextval('#{table_name}_id_seq')").first['nextval']
-    end
-
     def search_by(ids:, keywords: [])
       ids = [ids.to_i] unless ids.is_a?(Array)
       keywords = [keywords.to_s] unless keywords.is_a?(Array)

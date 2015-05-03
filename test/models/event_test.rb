@@ -5,44 +5,34 @@ class EventTest < ActiveSupport::TestCase
     build(:event_with_valid_attributes, *args, options)
   end
 
-  def test_valid
+  test 'valid' do
     assert event.valid?
   end
 
-  def test_empty_provider
+  test 'empty_provider' do
     refute event(provider: nil).valid?
   end
 
-  def test_empty_event_id
+  test 'empty_event_id' do
     refute event(event_id: nil).valid?
   end
 
-  def test_empty_title
+  test 'empty_title' do
     refute event(title: nil).valid?
   end
 
-  def test_empty_event_url
+  test 'empty_event_url' do
     refute event(event_url: nil).valid?
   end
 
-  def test_provider_and_event_id_unique
+  test 'provider_and_event_id_unique' do
     event.save!
     refute event.valid?
   end
 
-  def test_next_auto_increment_id
-    prev_next_id = Event.next_auto_increment_id
-    current_next_id = Event.next_auto_increment_id
-    assert_equal current_next_id, (prev_next_id + 1)
-  end
-
-  def test_search_by
-    event.save!
-    id1 = Event.last.id
-    event(:for_search).save!
-    id2 = Event.last.id
-    ids = [id1, id2]
-    assert_equal Event.search_by(ids: id2+1).size, 0
+  test 'search_by' do
+    res = Event.import([event, event(:for_search)])
+    ids = res[:ids]
     assert_equal Event.search_by(ids: ids, keywords: 'provider').size, 0
     assert_equal Event.search_by(ids: ids, keywords: 'event').size, 2
     assert_equal Event.search_by(ids: ids, keywords: 'event title').size, 1

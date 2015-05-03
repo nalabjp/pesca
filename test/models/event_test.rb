@@ -1,4 +1,5 @@
 require 'test_helper'
+
 class EventTest < ActiveSupport::TestCase
   def event(*args)
     options = args.extract_options!

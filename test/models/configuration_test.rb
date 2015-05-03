@@ -6,7 +6,7 @@ class ConfigurationTest < ActiveSupport::TestCase
   end
 
   test '.config' do
-    assert Configuration.send(:config).instance_of?(Hashie::Mash)
+    assert_instance_of Hashie::Mash, Configuration.send(:config)
   end
 
   test '.method_missing exist key' do

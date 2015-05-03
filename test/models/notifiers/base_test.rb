@@ -3,11 +3,11 @@ require 'test_helper'
 class Notifiers::BaseTest < ActiveSupport::TestCase
   test '#notify' do
     base = Notifiers::Base.new
-    base.define_singleton_method(:perform) do
-      true
+    base.define_singleton_method(:perform) do |arg|
+      arg
     end
 
-    assert base.notify
+    assert_equal base.notify('called #notify'), 'called #notify'
   end
 
   test '#perform' do

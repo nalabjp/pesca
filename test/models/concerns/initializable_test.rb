@@ -8,8 +8,8 @@ class ExampleModule::Example2; end
 
 class InitializableTest < ActiveSupport::TestCase
   test 'added class method' do
-    assert ExampleModule.respond_to?(:new)
-    assert ExampleModule.respond_to?(:class_name)
+    assert_respond_to ExampleModule, :new
+    assert_respond_to ExampleModule, :class_name
   end
 
   test '.class_name' do
@@ -18,7 +18,7 @@ class InitializableTest < ActiveSupport::TestCase
   end
 
   test '.new' do
-    assert ExampleModule.new(:example1).instance_of?(ExampleModule::Example1)
-    assert ExampleModule.new(:example2).instance_of?(ExampleModule::Example2)
+    assert_instance_of ExampleModule::Example1, ExampleModule.new(:example1)
+    assert_instance_of ExampleModule::Example2, ExampleModule.new(:example2)
   end
 end

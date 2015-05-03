@@ -5,6 +5,7 @@ require 'minitest/rails'
 require 'minitest/reporters'
 require 'factory_girl'
 require 'support/database_rewinder'
+require 'fixtures/pesca_stub/configuration'
 
 Minitest::Reporters.use!
 

@@ -89,16 +89,12 @@ class Runner
     @inserted_ids.present?
   end
 
-  def build_events
-    @crawled.map do |provider, futures|
-      futures.value.map do |event|
-        Providers[provider].build_event(event)
-      end
-    end.flatten!
+  def crawled_value
+    @crawled.map(&:value).flatten!
   end
 
   def exec_import
-    res = Event.import(build_events)
+    res = Event.import(crawled_value)
     @inserted_ids = res[:ids]
   end
 

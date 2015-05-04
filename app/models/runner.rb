@@ -103,7 +103,7 @@ class Runner
   end
 
   def crawled_value
-    @crawled.map(&:value).flatten!
+    @crawled.map(&:value).flatten
   end
 
   def find?

@@ -85,5 +85,6 @@ group :test do
   gem 'minitest-power_assert'
   gem 'minitest-rails'
   gem 'minitest-around'
+  gem 'minitest-stub_any_instance'
   gem 'database_rewinder'
 end

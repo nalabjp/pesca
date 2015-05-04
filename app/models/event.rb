@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
     def search_by(ids:, keywords: [])
       ids = [ids.to_i] unless ids.is_a?(Array)
       keywords = [keywords.to_s] unless keywords.is_a?(Array)
-      where(id: ids).ransack('title_or_description_or_catch_or_address_cont_any': keywords).result
+      where(id: ids).ransack('title_or_description_or_catch_or_address_cont_any' => keywords).result
     end
   end
 end

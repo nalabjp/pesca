@@ -77,20 +77,8 @@ class Runner
   end
 
   private
-  def providers
-    @providers ||= Providers.instances
-  end
-
   def exec_crawl
     @crawled = Crawler.new(providers).crawl
-  end
-
-  def new_arrival?
-    @inserted_ids.present?
-  end
-
-  def crawled_value
-    @crawled.map(&:value).flatten!
   end
 
   def exec_import
@@ -102,12 +90,24 @@ class Runner
     @filtered = Event.search_by(ids: @inserted_ids, keywords: @keywords)
   end
 
-  def find?
-    @filtered.present?
-  end
-
   def exec_notify
     NotificationJob.perform_later('events', @filtered.to_a)
+  end
+
+  def providers
+    @providers ||= Providers.instances
+  end
+
+  def new_arrival?
+    @inserted_ids.present?
+  end
+
+  def crawled_value
+    @crawled.map(&:value).flatten!
+  end
+
+  def find?
+    @filtered.present?
   end
 
   def notify_exception(ex)

@@ -2,7 +2,18 @@ require 'test_helper'
 
 class ConfigurationTest < ActiveSupport::TestCase
   def configuration
-    PescaStub::Configuration.stub_data
+    {
+      'providers'=> %w(zusaar connpass door_keeper),
+      'notifiers' => {
+        'pushbullet' => {
+          'access_token' => 'pushbullet_access_token',
+          'targets' => ['iPhone6']
+        }
+      },
+      'filter' => {
+        'keywords' => []
+      }
+    }
   end
 
   test '.config' do

@@ -4,9 +4,8 @@ class Crawler
   end
 
   def crawl
-    @providers.inject({}) do |hash, provider|
-      hash[provider.name.to_sym] = provider.future.load_events
-      hash
+    @providers.map do |provider|
+      provider.future.load_events
     end
   end
 end

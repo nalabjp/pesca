@@ -6,13 +6,20 @@ module Providers
       Dir.glob(Rails.root.join('app/models', name.underscore, '**/*.rb')).map{|f| File.basename(f, '.rb')} - ['base']
     end
 
+    def enabled_names
+      @enabled_names ||= Configuration.providers? ? Configuration.providers : names
+    end
+
     def [](klass)
-      class_name(klass).constantize
+      if klass.to_s.in?(enabled_names)
+        class_name(klass).constantize
+      else
+        raise NameError.new("Disabled provider '#{klass}'")
+      end
     end
 
     def instances
-      arr = Configuration.providers? ? Configuration.providers : names
-      arr.map{|provider| new(provider)}
+      enabled_names.map{|provider| new(provider)}
     end
   end
 end

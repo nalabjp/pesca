@@ -14,23 +14,18 @@ module Providers
       end
     end
 
-    private
-    def endpoint
-      'http://api.atnd.org'
-    end
-
-    def path
-      'events/'
-    end
-
-    def params
-      {
+    def initialize
+      super
+      @endpoint = 'http://api.atnd.org'
+      @path = 'events/'
+      @params = {
         start: 1,
         count: 25,
-        format: :json,
+        format: :json
       }
     end
 
+    private
     def response(resp)
       resp['events'].inject([]) do |arr, hash|
         arr.push(hash['event'])

@@ -14,23 +14,18 @@ module Providers
       end
     end
 
-    private
-    def endpoint
-      'http://www.zusaar.com/api'
-    end
-
-    def path
-      'event/'
-    end
-
-    def params
-      {
+    def initialize
+      super
+      @endpoint = 'http://www.zusaar.com/api'
+      @path = 'event/'
+      @params = {
         start: 1,
         count: 25,
         format: :json,
       }
     end
 
+    private
     def response(resp)
       resp['event']
     end

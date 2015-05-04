@@ -14,15 +14,13 @@ module Providers
       end
     end
 
+    def initialize
+      super
+      @endpoint = 'http://api.doorkeeper.jp'
+      @path = 'events'
+    end
+
     private
-    def endpoint
-      'http://api.doorkeeper.jp'
-    end
-
-    def path
-      'events'
-    end
-
     def response(resp)
       resp.inject([]) do |arr, hash|
         arr.push(hash['event'])

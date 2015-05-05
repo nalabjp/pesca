@@ -108,8 +108,8 @@ class Runner
     NotificationJob.perform_later('exception', ex.message, ex.backtrace)
   end
 
-  def log_info(message = nil)
-    Rails.logger.info(message) if message
+  def log_info(message)
+    Rails.logger.info(message)
   end
 
   class AlreadyRunOnceError < StandardError

@@ -5,7 +5,6 @@ class RunnerTest < ActiveSupport::TestCase
   test '#initialize' do
     runner = Runner.new
     assert_equal runner.instance_variable_get(:@keywords), []
-    assert_nil runner.instance_variable_get(:@providers)
     assert_nil runner.instance_variable_get(:@crawled)
     assert_nil runner.instance_variable_get(:@inserted_ids)
     assert_nil runner.instance_variable_get(:@filtered)
@@ -81,14 +80,6 @@ class RunnerTest < ActiveSupport::TestCase
     refute runner.send(:new_arrival?)
     runner.instance_variable_set(:@inserted_ids, [1,2])
     assert runner.send(:new_arrival?)
-  end
-
-  test '#crawled_value' do
-    mock = MiniTest::Mock.new
-    mock.expect(:value, 'value')
-    runner = Runner.new
-    runner.instance_variable_set(:@crawled, [mock])
-    assert_equal runner.send(:crawled_value), ['value']
   end
 
   test '#find?' do

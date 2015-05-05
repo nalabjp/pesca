@@ -14,10 +14,9 @@ module PescaStub
         }
       }
     end
-    module_function :stub_data
 
     def config_for(name)
-      if name.eql?(:pesca)
+      if name.to_s.eql?('pesca')
         stub_data
       else
         super

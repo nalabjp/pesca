@@ -3,7 +3,6 @@ class Runner
 
   def initialize
     @keywords = ::Configuration.filter.keywords
-    @providers = nil
     @crawled = nil
     @inserted_ids = nil
     @filtered = nil
@@ -70,7 +69,6 @@ class Runner
         notify_exception(e)
         raise e
       ensure
-        providers.each{|p| p.terminate}
         log_info('Finish: Runner#run')
       end
     end
@@ -82,7 +80,7 @@ class Runner
   end
 
   def exec_import
-    res = Event.import(crawled_value)
+    res = Event.import(@crawled)
     @inserted_ids = res[:ids]
   end
 
@@ -95,15 +93,11 @@ class Runner
   end
 
   def providers
-    @providers ||= Providers.instances
+    Providers.instances
   end
 
   def new_arrival?
     @inserted_ids.present?
-  end
-
-  def crawled_value
-    @crawled.map(&:value).flatten
   end
 
   def find?
@@ -114,8 +108,8 @@ class Runner
     NotificationJob.perform_later('exception', ex.message, ex.backtrace)
   end
 
-  def log_info(message = nil)
-    Rails.logger.info(message) if message
+  def log_info(message)
+    Rails.logger.info(message)
   end
 
   class AlreadyRunOnceError < StandardError

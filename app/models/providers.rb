@@ -7,7 +7,7 @@ module Providers
     end
 
     def enabled_names
-      @enabled_names ||= Configuration.providers? ? Configuration.providers : names
+      @enabled_names ||= Configuration.providers? ? (Configuration.providers & names) : names
     end
 
     def [](klass)

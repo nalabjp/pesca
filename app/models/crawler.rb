@@ -4,7 +4,9 @@ class Crawler
   end
 
   def crawl
-    values(futures)
+    res = values(futures)
+    terminate
+    res
   end
 
   private
@@ -16,5 +18,9 @@ class Crawler
 
   def values(futures)
     futures.map(&:value).flatten
+  end
+
+  def terminate
+    @providers.each{|p| p.terminate}
   end
 end

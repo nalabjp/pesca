@@ -5,7 +5,6 @@ class RunnerTest < ActiveSupport::TestCase
   test '#initialize' do
     runner = Runner.new
     assert_equal runner.instance_variable_get(:@keywords), []
-    assert_nil runner.instance_variable_get(:@providers)
     assert_nil runner.instance_variable_get(:@crawled)
     assert_nil runner.instance_variable_get(:@inserted_ids)
     assert_nil runner.instance_variable_get(:@filtered)

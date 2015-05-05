@@ -3,7 +3,6 @@ class Runner
 
   def initialize
     @keywords = ::Configuration.filter.keywords
-    @providers = nil
     @crawled = nil
     @inserted_ids = nil
     @filtered = nil
@@ -70,7 +69,6 @@ class Runner
         notify_exception(e)
         raise e
       ensure
-        providers.each{|p| p.terminate}
         log_info('Finish: Runner#run')
       end
     end
@@ -95,7 +93,7 @@ class Runner
   end
 
   def providers
-    @providers ||= Providers.instances
+    Providers.instances
   end
 
   def new_arrival?

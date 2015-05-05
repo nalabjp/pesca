@@ -82,7 +82,7 @@ class Runner
   end
 
   def exec_import
-    res = Event.import(crawled_value)
+    res = Event.import(@crawled)
     @inserted_ids = res[:ids]
   end
 
@@ -100,10 +100,6 @@ class Runner
 
   def new_arrival?
     @inserted_ids.present?
-  end
-
-  def crawled_value
-    @crawled.map(&:value).flatten
   end
 
   def find?

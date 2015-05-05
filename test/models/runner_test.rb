@@ -83,14 +83,6 @@ class RunnerTest < ActiveSupport::TestCase
     assert runner.send(:new_arrival?)
   end
 
-  test '#crawled_value' do
-    mock = MiniTest::Mock.new
-    mock.expect(:value, 'value')
-    runner = Runner.new
-    runner.instance_variable_set(:@crawled, [mock])
-    assert_equal runner.send(:crawled_value), ['value']
-  end
-
   test '#find?' do
     runner = Runner.new
     refute runner.send(:find?)

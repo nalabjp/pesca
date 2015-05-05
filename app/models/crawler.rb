@@ -4,8 +4,17 @@ class Crawler
   end
 
   def crawl
+    values(futures)
+  end
+
+  private
+  def futures
     @providers.map do |provider|
       provider.future.load_events
     end
+  end
+
+  def values(futures)
+    futures.map(&:value).flatten
   end
 end

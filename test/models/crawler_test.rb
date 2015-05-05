@@ -14,10 +14,23 @@ class CrawlerTest < ActiveSupport::TestCase
   end
 
   test '#crawl' do
+    future = MiniTest::Mock.new.expect(:value, 'value')
+    crawler = Crawler.new([])
+    crawler.stub(:futures, [future]) do
+      assert_equal crawler.crawl, ['value']
+    end
+  end
+
+  test '#futures' do
     mock = ProviderMock.new
     crawler = Crawler.new([mock])
-    res = crawler.crawl
+    res = crawler.send(:futures)
     assert_instance_of Array, res
     assert_instance_of Celluloid::Future, res.first
+  end
+
+  test '#values' do
+    mock = MiniTest::Mock.new.expect(:value, 'value')
+    assert_equal Crawler.new([]).send(:values, [mock]), ['value']
   end
 end

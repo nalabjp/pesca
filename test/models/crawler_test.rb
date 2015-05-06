@@ -10,7 +10,7 @@ class CrawlerTest < ActiveSupport::TestCase
     mock = ProviderMock.new
     crawler = Crawler.new([mock])
     assert_instance_of Array, crawler.instance_variable_get(:@providers)
-    assert_equal crawler.instance_variable_get(:@providers).first, mock
+    assert_equal mock, crawler.instance_variable_get(:@providers).first
   end
 
   test '#crawl' do
@@ -20,7 +20,7 @@ class CrawlerTest < ActiveSupport::TestCase
     crawler = Crawler.new([])
     crawler.stub(:futures, [future]) do
       crawler.stub(:terminate, proc) do
-        assert_equal crawler.crawl, ['value']
+        assert_equal ['value'], crawler.crawl
         assert terminated
       end
     end
@@ -36,7 +36,7 @@ class CrawlerTest < ActiveSupport::TestCase
 
   test '#values' do
     mock = MiniTest::Mock.new.expect(:value, 'value')
-    assert_equal Crawler.new([]).send(:values, [mock]), ['value']
+    assert_equal ['value'], Crawler.new([]).send(:values, [mock])
   end
 
   test '#terminate' do

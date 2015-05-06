@@ -4,12 +4,12 @@ class RunnerTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
   test '#initialize' do
     runner = Runner.new
-    assert_equal runner.instance_variable_get(:@keywords), []
+    assert_equal [], runner.instance_variable_get(:@keywords)
     assert_nil runner.instance_variable_get(:@crawled)
     assert_nil runner.instance_variable_get(:@inserted_ids)
     assert_nil runner.instance_variable_get(:@filtered)
     assert_instance_of Mutex, runner.instance_variable_get(:@mutex)
-    assert_equal runner.aasm.current_state, :prepare
+    assert_equal :prepare, runner.aasm.current_state
   end
 
   test '#run' do
@@ -38,7 +38,7 @@ class RunnerTest < ActiveSupport::TestCase
       runner = Runner.new
       runner.instance_variable_set(:@providers, Object.new)
       runner.send(:exec_crawl)
-      assert_equal runner.instance_variable_get(:@crawled), obj
+      assert_equal obj, runner.instance_variable_get(:@crawled)
     end
   end
 
@@ -49,7 +49,7 @@ class RunnerTest < ActiveSupport::TestCase
       runner = Runner.new
       runner.instance_variable_set(:@crawled, [mock])
       runner.send(:exec_import)
-      assert_equal runner.instance_variable_get(:@inserted_ids), [1,2]
+      assert_equal [1,2], runner.instance_variable_get(:@inserted_ids)
     end
   end
 
@@ -58,7 +58,7 @@ class RunnerTest < ActiveSupport::TestCase
     Event.stub(:search_by, [obj]) do
       runner = Runner.new
       runner.send(:exec_filter)
-      assert_equal runner.instance_variable_get(:@filtered), [obj]
+      assert_equal [obj], runner.instance_variable_get(:@filtered)
     end
   end
 
@@ -71,7 +71,7 @@ class RunnerTest < ActiveSupport::TestCase
   test '#providers' do
     obj = Object.new
     Providers.stub(:instances, [obj]) do
-      assert_equal Runner.new.send(:providers), [obj]
+      assert_equal [obj], Runner.new.send(:providers)
     end
   end
 
@@ -100,7 +100,7 @@ class RunnerTest < ActiveSupport::TestCase
     proc = Proc.new {|msg| message = msg}
     Rails.logger.stub(:info, proc) do
       Runner.new.send(:log_info, 'called #log_info')
-      assert_equal message, 'called #log_info'
+      assert_equal 'called #log_info', message
     end
   end
 end

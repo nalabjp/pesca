@@ -10,14 +10,14 @@ class NotificationJobTest < ActiveJob::TestCase
   test "#perform with 'events'" do
     job = NotificationJob.new('events')
     job.stub(:notify_events, 'called #notify_events') do
-      assert_equal job.perform_now, 'called #notify_events'
+      assert_equal 'called #notify_events', job.perform_now
     end
   end
 
   test "#perform with 'exception'" do
     job = NotificationJob.new('exception')
     job.stub(:notify_exception, 'called #notify_exception') do
-      assert_equal job.perform_now, 'called #notify_exception'
+      assert_equal 'called #notify_exception', job.perform_now
     end
   end
 
@@ -27,7 +27,7 @@ class NotificationJobTest < ActiveJob::TestCase
     Notifiers::Pushbullet.stub_any_instance(:notify, proc) do
       assert_nil called_notify
       NotificationJob.new.send(:notify_events, [OpenStruct.new])
-      assert_equal called_notify, 'called mock proc!'
+      assert_equal 'called mock proc!', called_notify
     end
   end
 
@@ -37,7 +37,7 @@ class NotificationJobTest < ActiveJob::TestCase
     Notifiers::Pushbullet.stub_any_instance(:notify, proc) do
       assert_nil called_notify
       NotificationJob.new.send(:notify_exception, 'msg1', ['trace1'])
-      assert_equal called_notify, 'called mock proc!'
+      assert_equal 'called mock proc!', called_notify
     end
   end
 end

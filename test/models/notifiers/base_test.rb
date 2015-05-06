@@ -7,7 +7,7 @@ class Notifiers::BaseTest < ActiveSupport::TestCase
       arg
     end
 
-    assert_equal base.notify('called #notify'), 'called #notify'
+    assert_equal 'called #notify', base.notify('called #notify')
   end
 
   test '#perform' do

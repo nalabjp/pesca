@@ -13,8 +13,8 @@ class InitializableTest < ActiveSupport::TestCase
   end
 
   test '.class_name' do
-    assert_equal ExampleModule.class_name(:example1), 'ExampleModule::Example1'
-    assert_equal ExampleModule.class_name(:example2), 'ExampleModule::Example2'
+    assert_equal 'ExampleModule::Example1', ExampleModule.class_name(:example1)
+    assert_equal 'ExampleModule::Example2', ExampleModule.class_name(:example2)
   end
 
   test '.new' do

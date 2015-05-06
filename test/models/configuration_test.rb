@@ -21,9 +21,9 @@ class ConfigurationTest < ActiveSupport::TestCase
   end
 
   test '.method_missing exist key' do
-    assert_equal Configuration.providers, configuration['providers']
-    assert_equal Configuration.notifiers, configuration['notifiers']
-    assert_equal Configuration.filter, configuration['filter']
+    assert_equal configuration['providers'], Configuration.providers
+    assert_equal configuration['notifiers'], Configuration.notifiers
+    assert_equal configuration['filter'], Configuration.filter
   end
 
   test '.method_missing not found key' do

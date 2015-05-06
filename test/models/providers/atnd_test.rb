@@ -17,9 +17,9 @@ class Providers::AtndTest < ActiveSupport::TestCase
   end
 
   test '#initialize' do
-    assert_equal @atnd.instance_variable_get(:@endpoint), 'http://api.atnd.org'
-    assert_equal @atnd.instance_variable_get(:@path), 'events/'
-    assert_equal @atnd.instance_variable_get(:@params), {start: 1, count: 25, format: :json}
+    assert_equal 'http://api.atnd.org', @atnd.instance_variable_get(:@endpoint)
+    assert_equal 'events/', @atnd.instance_variable_get(:@path)
+    assert_equal ({ start: 1, count: 25, format: :json }), @atnd.instance_variable_get(:@params)
   end
 
   test '#response' do
@@ -35,12 +35,12 @@ class Providers::AtndTest < ActiveSupport::TestCase
     event = @atnd.send(:build_event, hash)
     assert_instance_of Event, event
     attrs = event.attributes
-    assert_equal attrs['provider'], 'atnd'
-    assert_equal attrs['event_id'], hash['event_id']
-    assert_equal attrs['title'], hash['title']
-    assert_equal attrs['description'], hash['description']
-    assert_equal attrs['catch'], hash['catch']
-    assert_equal attrs['address'], hash['address']
-    assert_equal attrs['event_url'], hash['event_url']
+    assert_equal 'atnd', attrs['provider']
+    assert_equal hash['event_id'], attrs['event_id']
+    assert_equal hash['title'], attrs['title']
+    assert_equal hash['description'], attrs['description']
+    assert_equal hash['catch'], attrs['catch']
+    assert_equal hash['address'], attrs['address']
+    assert_equal hash['event_url'], attrs['event_url']
   end
 end

@@ -4,9 +4,11 @@ class Crawler
   end
 
   def crawl
-    res = values(futures)
-    terminate
-    res
+    begin
+      values(futures)
+    ensure
+      terminate
+    end
   end
 
   private

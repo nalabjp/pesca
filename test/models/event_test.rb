@@ -34,15 +34,15 @@ class EventTest < ActiveSupport::TestCase
   test 'search_by' do
     res = Event.import([event, event(:for_search)])
     ids = res[:ids]
-    assert_equal Event.search_by(ids: ids, keywords: 'provider').size, 0
-    assert_equal Event.search_by(ids: ids, keywords: 'event').size, 2
-    assert_equal Event.search_by(ids: ids, keywords: 'event title').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'event description').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'event catch').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'event address').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'foo').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'bar').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'baz').size, 1
-    assert_equal Event.search_by(ids: ids, keywords: 'qux').size, 1
+    assert_equal 0, Event.search_by(ids: ids, keywords: 'provider').size
+    assert_equal 2, Event.search_by(ids: ids, keywords: 'event').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'event title').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'event description').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'event catch').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'event address').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'foo').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'bar').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'baz').size
+    assert_equal 1, Event.search_by(ids: ids, keywords: 'qux').size
   end
 end

@@ -22,8 +22,8 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
       notification
     end
 
-    assert_equal @bullet.send(:perform, :link, 'msg of link'), 'msg of link'
-    assert_equal @bullet.send(:perform, :note, 'msg of note'), 'msg of note'
+    assert_equal 'msg of link', @bullet.send(:perform, :link, 'msg of link')
+    assert_equal 'msg of note', @bullet.send(:perform, :note, 'msg of note')
   end
 
   test '#client' do
@@ -34,7 +34,7 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
     devices = [Object.new]
     mock = MiniTest::Mock.new.expect(:devices, devices)
     @bullet.stub(:client, mock) do
-      assert_equal @bullet.send(:devices), devices
+      assert_equal devices, @bullet.send(:devices)
     end
   end
 
@@ -43,7 +43,7 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
     device.expect(:nickname, 'iPhone6')
     @bullet.stub(:devices, [device]) do
       @bullet.stub(:push_link, 'push_link called') do
-        assert_equal @bullet.send(:push_link, nil), 'push_link called'
+        assert_equal 'push_link called', @bullet.send(:push_link, nil)
       end
     end
   end
@@ -53,7 +53,7 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
     device.expect(:nickname, 'iPhone6')
     @bullet.stub(:devices, [device]) do
       @bullet.stub(:push_note, 'push_note called') do
-        assert_equal @bullet.send(:push_note, nil), 'push_note called'
+        assert_equal 'push_note called', @bullet.send(:push_note, nil)
       end
     end
   end

@@ -35,20 +35,20 @@ class ProvidersTest < ActiveSupport::TestCase
   end
 
   test '.[] with valid name' do
-    assert_equal Providers[:connpass], Providers::Connpass
-    assert_equal Providers[:door_keeper], Providers::DoorKeeper
-    assert_equal Providers[:zusaar], Providers::Zusaar
+    assert_equal Providers::Connpass, Providers[:connpass]
+    assert_equal Providers::DoorKeeper, Providers[:door_keeper]
+    assert_equal Providers::Zusaar, Providers[:zusaar]
   end
 
   test '.[] with invalid name' do
     e1 = assert_raise NameError do
       Providers[:base]
     end
-    assert_equal e1.message, "Disabled provider 'base'"
+    assert_equal "Disabled provider 'base'", e1.message
     e2 = assert_raise NameError do
       Providers[:atnd]
     end
-    assert_equal e2.message, "Disabled provider 'atnd'"
+    assert_equal "Disabled provider 'atnd'", e2.message
   end
 
   test '.instances' do

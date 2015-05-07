@@ -19,9 +19,9 @@ class Providers::DoorKeeperTest < ActiveSupport::TestCase
   end
 
   test '#initialize' do
-    assert_equal @door_keeper.instance_variable_get(:@endpoint), 'http://api.doorkeeper.jp'
-    assert_equal @door_keeper.instance_variable_get(:@path), 'events'
-    assert_equal @door_keeper.instance_variable_get(:@params), nil
+    assert_equal 'http://api.doorkeeper.jp', @door_keeper.instance_variable_get(:@endpoint)
+    assert_equal 'events', @door_keeper.instance_variable_get(:@path)
+    assert_equal ({locale: 'ja'}), @door_keeper.instance_variable_get(:@params)
   end
 
   test '#response' do
@@ -37,12 +37,12 @@ class Providers::DoorKeeperTest < ActiveSupport::TestCase
     event = @door_keeper.send(:build_event, hash)
     assert_instance_of Event, event
     attrs = event.attributes
-    assert_equal attrs['provider'], 'door_keeper'
-    assert_equal attrs['event_id'], hash['id']
-    assert_equal attrs['title'], hash['title']
-    assert_equal attrs['description'], hash['description']
-    assert_equal attrs['catch'], hash['group']['description']
-    assert_equal attrs['address'], hash['address']
-    assert_equal attrs['event_url'], hash['public_url']
+    assert_equal 'door_keeper', attrs['provider']
+    assert_equal hash['id'], attrs['event_id']
+    assert_equal hash['title'], attrs['title']
+    assert_equal hash['description'], attrs['description']
+    assert_equal hash['group']['description'], attrs['catch']
+    assert_equal hash['address'], attrs['address']
+    assert_equal hash['public_url'], attrs['event_url']
   end
 end

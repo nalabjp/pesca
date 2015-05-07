@@ -21,7 +21,7 @@ class Providers::DoorKeeperTest < ActiveSupport::TestCase
   test '#initialize' do
     assert_equal 'http://api.doorkeeper.jp', @door_keeper.instance_variable_get(:@endpoint)
     assert_equal 'events', @door_keeper.instance_variable_get(:@path)
-    assert_equal nil, @door_keeper.instance_variable_get(:@params)
+    assert_equal ({locale: 'ja'}), @door_keeper.instance_variable_get(:@params)
   end
 
   test '#response' do

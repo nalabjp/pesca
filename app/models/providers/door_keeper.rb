@@ -4,6 +4,9 @@ module Providers
       super
       @endpoint = 'http://api.doorkeeper.jp'
       @path = 'events'
+      @params = {
+        locale: 'ja'
+      }
     end
 
     private

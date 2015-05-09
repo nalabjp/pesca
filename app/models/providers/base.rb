@@ -20,8 +20,9 @@ module Providers
     def connection
       @connection ||= Faraday.new(@endpoint) do |faraday|
         faraday.response :logger
-        faraday.adapter  Faraday.default_adapter
         faraday.response :json, :content_type => /\bjson$/
+        faraday.response :raise_error
+        faraday.adapter  Faraday.default_adapter
       end
     end
 

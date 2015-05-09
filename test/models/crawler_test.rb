@@ -34,9 +34,20 @@ class CrawlerTest < ActiveSupport::TestCase
     assert_instance_of Celluloid::Future, res.first
   end
 
-  test '#values' do
+  test '#values with only valid future' do
     mock = MiniTest::Mock.new.expect(:value, 'value')
     assert_equal ['value'], Crawler.new([]).send(:values, [mock])
+  end
+
+  test '#values with only invalid future' do
+    mock_error = MiniTest::Mock.new.expect(:value, nil) { raise Faraday::Error.new('test') }
+    assert_equal [], Crawler.new([]).send(:values, [mock_error])
+  end
+
+  test '#values with valid and invalid futures' do
+    mock_error = MiniTest::Mock.new.expect(:value, nil) { raise Faraday::Error.new('test') }
+    mock = MiniTest::Mock.new.expect(:value, 'value')
+    assert_equal ['value'], Crawler.new([]).send(:values, [mock_error, mock])
   end
 
   test '#terminate' do

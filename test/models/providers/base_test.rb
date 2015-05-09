@@ -22,7 +22,14 @@ class Providers::BaseTest < ActiveSupport::TestCase
   end
 
   test '#connection' do
-    assert_instance_of Faraday::Connection, @base.send(:connection)
+    connection = @base.send(:connection)
+    handlers = connection.builder.handlers
+    assert_instance_of Faraday::Connection, connection
+    assert_includes handlers, Faraday::Response::Logger
+    assert_includes handlers, FaradayMiddleware::ParseJson
+    assert_includes handlers, Faraday::Response::RaiseError
+    assert_includes handlers, Faraday::Adapter::NetHttp
+    assert_equal 4, handlers.size
   end
 
   test '#load' do

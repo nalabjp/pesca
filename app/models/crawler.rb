@@ -19,7 +19,14 @@ class Crawler
   end
 
   def values(futures)
-    futures.map(&:value).flatten
+    futures.map do |future|
+      begin
+        future.value
+      rescue => e
+        Rails.logger.error(e.message)
+        []
+      end
+    end.flatten
   end
 
   def terminate

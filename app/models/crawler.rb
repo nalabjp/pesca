@@ -30,6 +30,6 @@ class Crawler
   end
 
   def terminate
-    @providers.each{|p| p.terminate}
+    @providers.each{|p| p.terminate if p.alive? }
   end
 end

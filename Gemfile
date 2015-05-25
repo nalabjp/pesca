@@ -44,7 +44,7 @@ gem 'ransack'
 gem 'celluloid'
 
 # pushbullet
-gem 'washbullet', github: 'nalabjp/washbullet'
+gem 'washbullet'
 
 # state machine
 gem 'aasm'

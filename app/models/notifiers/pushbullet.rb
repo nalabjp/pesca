@@ -14,10 +14,14 @@ module Notifiers
     def push_link(notification)
       devices.each do |device|
         if device.nickname.in?(targets)
-          device.push_link(
-            notification.title,
-            notification.url,
-            notification.body
+          client.push_link(
+            receiver:   :device,
+            identifier: device.identifier,
+            params: {
+              title: notification.title,
+              url:   notification.url,
+              body:  notification.body
+            }
           )
         end
       end
@@ -26,9 +30,13 @@ module Notifiers
     def push_note(notification)
       devices.each do |device|
         if device.nickname.in?(targets)
-          device.push_note(
-            notification.title,
-            notification.body
+          client.push_note(
+            receiver:   :device,
+            identifier: device.identifier,
+            params: {
+              title: notification.title,
+              body:  notification.body
+            }
           )
         end
       end

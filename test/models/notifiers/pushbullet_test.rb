@@ -41,9 +41,30 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
   test '#push_link' do
     device = MiniTest::Mock.new
     device.expect(:nickname, 'iPhone6')
+    device.expect(:identifier, 'aabbcc112233')
+    res = {}
+    client = MiniTest::Mock.new
+    client.expect(:push_link, nil) do |arg|
+      res[:receiver] = arg[:receiver]
+      res[:identifier] = arg[:identifier]
+      res[:params] = arg[:params]
+    end
+    notification = OpenStruct.new({
+                                    title: 'title!!',
+                                    url: 'http://test_url.com',
+                                    body: 'body!!'
+                                  })
     @bullet.stub(:devices, [device]) do
-      @bullet.stub(:push_link, 'push_link called') do
-        assert_equal 'push_link called', @bullet.send(:push_link, nil)
+      @bullet.stub(:client, client) do
+        @bullet.send(
+          :push_link,
+          notification
+        )
+        assert_equal :device, res[:receiver]
+        assert_equal 'aabbcc112233', res[:identifier]
+        assert_equal 'title!!', res[:params][:title]
+        assert_equal 'http://test_url.com', res[:params][:url]
+        assert_equal 'body!!', res[:params][:body]
       end
     end
   end
@@ -51,9 +72,28 @@ class Notifiers::PushBulletTest < ActiveSupport::TestCase
   test '#push_note' do
     device = MiniTest::Mock.new
     device.expect(:nickname, 'iPhone6')
+    device.expect(:identifier, 'aabbcc112233')
+    res = {}
+    client = MiniTest::Mock.new
+    client.expect(:push_note, nil) do |arg|
+      res[:receiver] = arg[:receiver]
+      res[:identifier] = arg[:identifier]
+      res[:params] = arg[:params]
+    end
+    notification = OpenStruct.new({
+                                    title: 'title!!',
+                                    body: 'body!!'
+                                  })
     @bullet.stub(:devices, [device]) do
-      @bullet.stub(:push_note, 'push_note called') do
-        assert_equal 'push_note called', @bullet.send(:push_note, nil)
+      @bullet.stub(:client, client) do
+        @bullet.send(
+          :push_note,
+          notification
+        )
+        assert_equal :device, res[:receiver]
+        assert_equal 'aabbcc112233', res[:identifier]
+        assert_equal 'title!!', res[:params][:title]
+        assert_equal 'body!!', res[:params][:body]
       end
     end
   end
